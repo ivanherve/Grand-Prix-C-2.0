@@ -20,32 +20,6 @@ int sizeRtg = sizeof(int);
 // VARIABLES
 unsigned int randSeed = 1;
 
-
-int randomRtg (int min, int max) {
-
-	// CREATE A SHARED MEMORY
-	initSH();	
-	attachSH(shmid);
-	
-
-	// CHECK IF SOMETHING IS IN MEMORY
-	if (*shmaddrRtg != 0) {
-		randSeed = *shmaddrRtg;
-	} else {
-		//printf("Nothing in Memory\n");
-	}
-
-	// GENERATE RANDOM NUMBER
-	srand((unsigned)time(NULL) * randSeed );
-	
-	randTime = rand() % (max-min)+min;
-	
-	// WRITE NEW RANDSEED ON MEMORY
-	*shmaddrRtg = hash(randTime);
-	
-	return randTime;
-}
-
 int initSH() {
 	if ((shmidRtg = shmget(keyRtg, sizeRtg, IPC_CREAT|0660)) == -1) {
 		perror("shmget: shmget failed"); 
@@ -72,3 +46,30 @@ int hash (int d){
 	result = result * 891997;
 	return abs(result);
 }
+
+int randomRtg (int min, int max) {
+
+	// CREATE A SHARED MEMORY
+	initSH();	
+	attachSH(shmid);
+	
+
+	// CHECK IF SOMETHING IS IN MEMORY
+	if (*shmaddrRtg != 0) {
+		randSeed = *shmaddrRtg;
+	} else {
+		//printf("Nothing in Memory\n");
+	}
+
+	// GENERATE RANDOM NUMBER
+	srand((unsigned)time(NULL) * randSeed );
+	
+	randTime = rand() % (max-min)+min;
+	
+	// WRITE NEW RANDSEED ON MEMORY
+	*shmaddrRtg = hash(randTime);
+	
+	return randTime;
+}
+
+

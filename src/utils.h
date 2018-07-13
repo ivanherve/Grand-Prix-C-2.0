@@ -6,6 +6,7 @@ struct car {
          int lapTime;
          int pitTime;
          int raceTime;
+	 int lap;
 };
 
 // SHARED MEMORY
@@ -25,10 +26,17 @@ int mountSHM() {
         } else {
                 // Attach SHM
                 if ((shmCar = (struct car*) shmat(shmid, NULL, 0)) == (struct car*)  -1) {
-                        perror("shmat: shmat failed");
+			printf(" shhmid :%d \n",shmid);
+                        // perror("shmat: shmat failed ----- ");
                         return -1;
                 } else {
                         return 0;
                 }
         }
+	return 0;
+}
+
+int dismountSHM(){
+	shmdt(shmCar);
+	shmctl(shmid, IPC_RMID, NULL); 
 }

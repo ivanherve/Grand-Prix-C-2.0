@@ -11,12 +11,20 @@ int memPos;
 struct car Car;
 int raceIsOver = 0;
 
+
+int checkBestSectorTime(int sector) {
+	// Check if the new sector time is better than the last best one (general)
+	return shmCar[memPos].sectorsTime[sector] < Car.sectorsTime[sector];
+}
+
 void writeSectorTime(int sector) {
 	// Write the best sector time in the Shared Memory
 	if (checkBestSectorTime(sector)) {
 		shmCar[memPos].sectorsTime[sector] = Car.sectorsTime[sector];
 	}
 }
+
+
 
 void calcLap() {
 	// Calc the total lap time
@@ -25,11 +33,6 @@ void calcLap() {
 		totalLap += Car.sectorsTime[i];
 	}
 	
-}
-
-int checkBestSectorTime(int sector) {
-	// Check if the new sector time is better than the last best one (general)
-	return shmCar[memPos].sectorsTime[sector] < Car.sectorsTime[sector];
 }
 
 void writeLapTime() {
@@ -59,6 +62,7 @@ int isPit() {
 	return !Car.pitFlag;
 }
 
+
 int main (int argc, char *argv[]) {
 	
 	//printf("Bonjour je suis la voiture %s \n", argv[1]);
@@ -70,7 +74,10 @@ int main (int argc, char *argv[]) {
 	}
 	
 	// Find position in SHM
-	
+	if(argc < 2){
+		printf("argv no complete");
+		return -1 ;
+	}
 	memPos = atoi(argv[1]);
 	
 
@@ -109,6 +116,5 @@ int main (int argc, char *argv[]) {
 		if (i > 30) { raceIsOver = 1; }
 	} 	
 }
-
 
 
