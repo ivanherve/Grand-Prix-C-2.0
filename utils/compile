@@ -1,0 +1,16 @@
+#!/bin/sh
+
+#Define here the path to the bin directory for project
+path="/home/adrien/Grand_Prix_C/bin/"
+
+if [ -z "$1" ] #Check if argument is null
+then
+	echo "Missing argument"
+elif [ -f "$1"  ] #Check if argument is a file
+then
+	s=$1
+	s2=${s::-2} #Removes the file extension
+	gcc $s -o $path$s2
+else
+	echo "$1 is not a file"
+fi

@@ -1,0 +1,21 @@
+#!/bin/sh
+
+#Define here the path to the bin directory for project
+
+path="/home/adrien/Grand_Prix_C/bin/"
+
+if [ -z "$1" ] #Check if argument is null
+then
+	echo "Missing argument"
+	exit 1
+fi
+
+s=$path$1
+
+if [ -f "$s" ]
+then
+	$s
+else
+	echo "$s doesn't exist"
+	exit 1
+fi
