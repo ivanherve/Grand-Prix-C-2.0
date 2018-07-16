@@ -45,7 +45,7 @@ int main (int argc, char* argv[]){
 		
 		 } else  {
 		
-			char* filePath = "./bin/voiture";
+			char* filePath = "./voiture";
 			char buffInt[4];
 			sprintf(buffInt, "%d", i);
 			char* args[] = {filePath, buffInt, NULL};
