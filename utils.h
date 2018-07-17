@@ -15,6 +15,7 @@ key_t key = 6789;
 int shmid;
 struct car *shmCar;
 int size = sizeof(struct car) * 20;
+struct car *carat;  
 
 int mountSHM() {
 
@@ -34,6 +35,16 @@ int mountSHM() {
                 }
         }
 	return 0;
+}
+
+int attachSHM() {
+	// Attach cars to shared memory
+	if ((carat = shmat(shmid, NULL, 0)) == (struct car*) -1){
+		perror("shmat: shmat failed car at! sorry");
+		return -1;
+	} else {
+		return 0;
+	}
 }
 
 int dismountSHM(){

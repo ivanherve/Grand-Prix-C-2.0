@@ -68,7 +68,7 @@ int main (int argc, char *argv[]) {
 	//printf("Bonjour je suis la voiture %s \n", argv[1]);
 	
 	// Create and mount the shared memory
-	if (mountSHM() == -1){
+	if (attachSHM() == -1){
 		printf("Creation or Mounting of SHM failed");
 		return 1;		
 	}
