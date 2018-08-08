@@ -21,7 +21,7 @@ int mountSHM() {
 
 
         // Init Shared Memory
-        if ((shmid = shmget(key, size, IPC_CREAT|0660)) == -1) {
+        if ((shmid = shmget(key, size, IPC_CREAT|0666)) == -1) {
                 perror("shmget: shmget failed");
                 return -1;
         } else {
