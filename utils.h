@@ -18,8 +18,6 @@ int size = sizeof(struct car) * 20;
 struct car *carat;  
 
 int mountSHM() {
-
-
         // Init Shared Memory
         if ((shmid = shmget(key, size, IPC_CREAT|0666)) == -1) {
                 perror("shmget: shmget failed");
@@ -27,7 +25,6 @@ int mountSHM() {
         } else {
                 // Attach SHM
                 if ((shmCar = shmat(shmid, NULL, 0)) == (struct car*)  -1) {
-			printf(" shhmid :%d \n",shmid);
                        	perror("shmat: shmat failed ----- ");
                         return -1;
                 } else {
@@ -38,13 +35,20 @@ int mountSHM() {
 }
 
 int attachSHM() {
-	// Attach cars to shared memory
-	if ((carat = shmat(shmid, NULL, 0)) == (struct car*) -1){
-		perror("shmat: shmat failed car at! sorry");
-		return -1;
-	} else {
-		return 0;
-	}
+	 if ((shmid = shmget(key, size, 0666)) == -1) {
+                perror("shmget: shmget failed");
+                return -1;
+        } else {
+                // Attach SHM
+                if ((shmCar = shmat(shmid, NULL, 0)) == (struct car*)  -1) {
+                       	perror("shmat: shmat failed ----- ");
+                        return -1;
+                } else {
+                        return 0;
+                }
+        }
+	return 0;
+
 }
 
 int dismountSHM(){

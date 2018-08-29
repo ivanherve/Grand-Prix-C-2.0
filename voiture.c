@@ -10,6 +10,7 @@
 int memPos;
 struct car Car;
 int raceIsOver = 0;
+int lap = 0;
 
 
 int checkBestSectorTime(int sector) {
@@ -44,7 +45,7 @@ void writeLapTime() {
 
 int getTime(int min, int max) {
 	// Call the time generator function
-	return randomRtg(min, max);
+return randomRtg(min, max);
 }
 
 
@@ -69,7 +70,7 @@ int main (int argc, char *argv[]) {
 	
 	// Create and mount the shared memory
 	if (attachSHM() == -1){
-		printf("Creation or Mounting of SHM failed");
+		printf("Creation or Mounting of SHM failed car \n");
 		return 1;		
 	}
 	
@@ -110,6 +111,10 @@ int main (int argc, char *argv[]) {
 
 		if (!Car.crashed) {
 			calcLap();
+			lap ++;
+			if (lap > 25){
+				raceIsOver = 1;
+			}
 		}
 
 

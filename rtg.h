@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
+#include <string.h>
+#include <stdlib.h>
 
 // RANDOM VARs
 int randTime;
@@ -21,7 +23,7 @@ int sizeRtg = sizeof(int);
 unsigned int randSeed = 1;
 
 int initSH() {
-	if ((shmidRtg = shmget(keyRtg, sizeRtg, IPC_CREAT|0660)) == -1) {
+	if ((shmidRtg = shmget(keyRtg, sizeRtg, IPC_CREAT|0666)) == -1) {
 		perror("shmget: shmget failed"); 
 		exit(1);
 	} else {
@@ -33,11 +35,12 @@ int initSH() {
 }
 
 int attachSH(int id) {
-	if ((shmaddrRtg = shmat(shmidRtg, NULL, 0)) == (char *)  -1) {
-printf("shmid : %d\n",shmidRtg);
+	shmaddrRtg = shmat(shmidRtg, NULL, 0);
+	if ((shmaddrRtg == (char *)  -1)) {
+//printf("shmid : %d\n",shmidRtg);
 				
-		perror("shmat: shmat failed");
-printf("id : %d\n",id);
+		perror("shmat: shmat failed -------");
+//printf("id : %d\n",id);
 		exit(1);
 	} else {
 		//printf("shmat: shmat succeded !\n");
@@ -56,7 +59,11 @@ int randomRtg (int min, int max) {
 
 	// CREATE A SHARED MEMORY
 	initSH();	
-	attachSH(shmidRtg);
+	//if (initSH() != 0) {
+	//	printf("Error by creating a SHM!");	
+	//} else {
+		attachSH(shmidRtg);
+	//}
 	
 
 	// CHECK IF SOMETHING IS IN MEMORY

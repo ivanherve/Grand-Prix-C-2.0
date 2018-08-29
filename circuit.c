@@ -21,24 +21,24 @@ int main (int argc, char* argv[]){
 		return 1;
 	}
 	printf("li:23 \n");
-	//for(i = 0; i < 20; i++){
-	//	shmCar[i].id = numsVoit[i];
-	//	printf("%d \n",numsVoit[i]);
-	//	shmCar[i].crashed = 0;	
-	//}
-	shmCar[1].id = numsVoit[1];
-	shmCar[1].crashed = 0;
-	shmCar[2].id = numsVoit[2];
-	shmCar[2].crashed = 0;
-	printf("li:28 \n");
+	for(i = 0; i < 20; i++){
+		shmCar[i].id = numsVoit[i];
+		printf("%d \n",numsVoit[i]);
+		shmCar[i].crashed = 0;	
+	}
+	//shmCar[1].id = numsVoit[1];
+	//shmCar[1].crashed = 0;
+	//shmCar[2].id = numsVoit[2];
+	//shmCar[2].crashed = 0;
+	//printf("li:28 \n");
 	i = 0;
-	printf("li:30 \n");
-	printf("li:31 \n");
+	//printf("li:30 \n");
+	//printf("li:31 \n");
 	for(i = 0; i<1; i++){
 		printf("li:31");
 		if((pidF = fork()) == -1){
 			perror("li:33");
-			fprintf(stderr,"li:34 -> %s\n");
+			//fprintf(stderr,"li:34 -> %s\n");
 			abort();
 			return -1;
 		}
