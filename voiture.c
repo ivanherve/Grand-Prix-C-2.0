@@ -27,12 +27,13 @@ void writeSectorTime(int sector) {
 
 
 
-void calcLap() {
+int calcLap() {
 	// Calc the total lap time
 	int totalLap = 0, i;
 	for (i = 0; i < sizeof(Car.sectorsTime)/sizeof(int); i++) {
 		totalLap += Car.sectorsTime[i];
 	}
+	return totalLap;
 	
 }
 
@@ -45,7 +46,8 @@ void writeLapTime() {
 
 int getTime(int min, int max) {
 	// Call the time generator function
-return randomRtg(min, max);
+	return randomRtg(min, max);
+	
 }
 
 
@@ -84,13 +86,11 @@ int main (int argc, char *argv[]) {
 
 	// Init Car	
 	Car = shmCar[memPos];
-	
+	Car.raceTime = 0;
 
 	// Race simulation
 	int j = 0;
 	while (!raceIsOver && !Car.crashed) { // Loop while !raceisOver
-		
-
 		int i;
 		for (i = 0; i < sizeof(Car.sectorsTime)/sizeof(int) && !Car.crashed; i++) {		
 			
@@ -98,8 +98,8 @@ int main (int argc, char *argv[]) {
 
 			if (!Car.crashed) { // isCrashed ?
 				Car.sectorsTime[i] = getTime(25, 35); // Generate sector time
-			//	printf("Time generated for car n°: %d\n", Car.id);
-				writeSectorTime(i); 
+				//printf("Time %d generated for car n°: %d\n",Car.sectorsTime[i], Car.id);
+				writeSectorTime(i);
 			}
 			
 		}
@@ -110,16 +110,18 @@ int main (int argc, char *argv[]) {
 		}
 
 		if (!Car.crashed) {
-			calcLap();
+			Car.lapTime = calcLap();
 			lap ++;
+			Car.raceTime += Car.lapTime;
 			if (lap > 25){
 				raceIsOver = 1;
 			}
 		}
-
-
-		if (i > 30) { raceIsOver = 1; }
-	} 	
+	
+	}
+	sleep(2);
+	printf("%d  | %d  | %d \n",Car.id,Car.raceTime,Car.lapTime); 
+	return 0;	
 }
 
 

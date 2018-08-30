@@ -18,6 +18,8 @@ int size = sizeof(struct car) * 20;
 struct car *carat;  
 
 int mountSHM() {
+
+
         // Init Shared Memory
         if ((shmid = shmget(key, size, IPC_CREAT|0666)) == -1) {
                 perror("shmget: shmget failed");
